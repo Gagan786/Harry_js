@@ -1,0 +1,11 @@
+{
+  "name": "weather-app",
+  "version": "1.0.0",
+  "description": "This is to check the real time weather in ur hometown or anywhere in the world.",
+  "main": "app.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "author": "Goofy Lancer",
+  "license": "ISC"
+}
