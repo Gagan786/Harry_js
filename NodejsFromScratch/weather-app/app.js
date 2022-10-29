@@ -1,4 +1,5 @@
 const request = require("request");
+const geocode = require('./utils/geocode');
 //request is a npm package
 const url =
   "http://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=32845785ef2e9fa3d05817058690203d&units=metric";
@@ -29,20 +30,51 @@ request(
 //adress -> lang/lon -> weather
 
 // Goal : Print the lat/long for Los Angeles.
-const geoCodeURL =
-  "http://api.positionstack.com/v1/forward?access_key=6b93bbab0c69fdbe22ddf6dec243894a&query=1600%20Pennsylvania%20Ave%20NW,%20Washington%20DC";
+// const geoCodeURL =
+//   "http://api.positionstack.com/v1/forward?access_key=6b93bbab0c69fdbe22ddf6dec243894a&query=1600%20Pennsylvania%20Ave%20NW,%20Washington%20DC&limit=1";
 
-request({ url: geoCodeURL, json: true }, (error, response) => {
+// request({ url: geoCodeURL, json: true }, (error, response) => {
   
-  if (error) {
-    console.log("UNable to connect to Location services");   
-  }
-  else if (response.body.data == undefined) {
-    console.log("Unable to find the location. Try another search");
-   }
-  else {
-    const longitude = response.body.data[0].longitude;
-    const latitude = response.body.data[0].latitude;
-    console.log(`${longitude}, ${latitude}`);
-  }
-});
+//   if (error) {
+//     console.log("UNable to connect to Location services");
+//   }
+//   else if (response.body.data == undefined) {
+//     console.log("Unable to find the location. Try another search");
+//    }
+//   else {
+//     const longitude = response.body.data[0].longitude;
+//     const latitude = response.body.data[0].latitude;
+//     console.log(`${longitude}, ${latitude}`);
+//     console.log(response.body);
+//   }
+// });
+// 1600 % 20Pennsylvania % 20Ave % 20NW,% 20Washington % 20DC;
+const geocode2 = (address, callback) => {
+  const url = `http://api.positionstack.com/v1/forward?access_key=6b93bbab0c69fdbe22ddf6dec243894a&query=${address}&limit=1`;
+
+  request({ url: url, json: true},
+    (error, response) => {
+      if (error) {
+        callback('Failed to load due to network error', undefined);
+      }
+      else if (response.body.data === undefined) {
+        callback('Unable to find the locaions. Try another search', undefined);
+      }
+      else {
+        callback(undefined, {
+          latitude: response.body.data[0].latitude,
+          longitude: response.body.data[0].longitude
+        })
+      }
+    }
+  )
+}
+
+  geocode("Boston New York", (error,data) => { 
+    console.log('error', error);
+    console.log('data', data);
+  });
+
+
+
+
