@@ -1,5 +1,6 @@
 const request = require("request");
 const geocode = require('./utils/geocode');
+const forecast = require('./utils/forecast');
 //request is a npm package
 const url =
   "http://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=32845785ef2e9fa3d05817058690203d&units=metric";
@@ -49,30 +50,15 @@ request(
 //   }
 // });
 // 1600 % 20Pennsylvania % 20Ave % 20NW,% 20Washington % 20DC;
-const geocode2 = (address, callback) => {
-  const url = `http://api.positionstack.com/v1/forward?access_key=6b93bbab0c69fdbe22ddf6dec243894a&query=${address}&limit=1`;
 
-  request({ url: url, json: true},
-    (error, response) => {
-      if (error) {
-        callback('Failed to load due to network error', undefined);
-      }
-      else if (response.body.data === undefined) {
-        callback('Unable to find the locaions. Try another search', undefined);
-      }
-      else {
-        callback(undefined, {
-          latitude: response.body.data[0].latitude,
-          longitude: response.body.data[0].longitude
-        })
-      }
-    }
-  )
-}
 
   geocode("Boston New York", (error,data) => { 
-    console.log('error', error);
-    console.log('data', data);
+    console.log('Coordinates error', error);
+    console.log('Coordinates data', data);
+    forecast(data.latitude,data.lingitude, (error, Data) => {
+      console.log("forecast Error ", error);
+      console.log("Forecast Data ", Data);
+    });
   });
 
 
