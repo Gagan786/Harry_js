@@ -8,7 +8,7 @@
 // });
 // // this thing gonna execute after main function finishes executing.
 // const geocode = (adress,callback) => {
-    
+
 //     setTimeout(() => {
 //         const data = {
 //             latitude: 0,
@@ -20,7 +20,6 @@
 // }
 // // const data get retured value when main fucntion ahs finished its exection.
 // const data = geocode('Philadelphia', () => {
-
 
 // });
 // console.log(data);
@@ -34,12 +33,27 @@
 // 4. Test your work!
 
 const add = (a, b, callback) => {
-    setTimeout(() => {
-        var sum = a + b;
-        callback(sum);
-    }, 2000);
-}
+  setTimeout(() => {
+    var sum = a + b;
+    callback(sum);
+  }, 2000);
+};
 
 add(1, 8, (sum) => {
-    console.log(sum) // Should print: 5
-})
+  console.log(sum); // Should print: 5
+});
+
+var callreturn = ban("Stigma", (error) => {
+  return error;
+});
+function ban(name, callback) {
+  if (name == "Stigma") {
+    console.log(name);
+    return name;
+  }
+}
+console.log(callreturn);
+
+console.log(process.argv);
+const myargs = process.argv.slice(2);
+console.log(myargs);
