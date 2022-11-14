@@ -1,6 +1,26 @@
 const request = require("request");
 const geocode = require("./utils/geocode");
 const forecast = require("./utils/forecast");
+
+const address = process.argv[2];
+
+if (!address) {
+  console.log("address not provided");
+}
+else {
+  geocode(address, (error, { latitude, longitude, location } = {}) => {
+    if (error) { return console.log(error); }
+    
+    forecast(latitude,longitude, (error, Data) => {
+      if (error) {
+        return console.log(error);
+      }
+      console.log("Forecast Data ", Data);
+    });
+  
+  });
+}
+
 //request is a npm package
 // const url =
 //   "http://api.openweathermap.org/data/2.5/weather?lat=42.652781&lon=-78.755447&appid=1bba96c46e5a9c197e8d9ae144e0f070&units=imperial";
@@ -49,24 +69,5 @@ const forecast = require("./utils/forecast");
 //   }
 // });
 // 1600 % 20Pennsylvania % 20Ave % 20NW,% 20Washington % 20DC;
-const address = process.argv[2];
-
-if (!address) {
-  console.log("address not provided");
-}
-else {
-  const geoerror = geocode(address, (error, data) => {
-    if (error) { return console.log(error); }
-    // console.log("Coordinates data", data);
-  
-    forecast(data.latitude, data.longitude, (error, Data) => {
-      if (error) {
-        return console.log(error);
-      }
-      console.log("Forecast Data ", Data);
-    });
-  
-  });
-}
 
 
